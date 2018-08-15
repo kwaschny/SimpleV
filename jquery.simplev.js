@@ -916,14 +916,14 @@ SimpleV.init = function(body, options) {
 		// prevent attaching SimpleV more than once
 		if (forms[i].hasAttribute('data-v-cached')) {
 
-			if (this.options.log === true) { console.warn('SimpleV: Form already initialized.', forms[i]); }
+			if ((options !== undefined) && (options.log === true)) { console.warn('SimpleV: Form already initialized.', forms[i]); }
 			continue;
 		}
 
 		var enabled = forms[i].getAttribute('data-v');
 		if (enabled === 'false') {
 
-			if (this.options.log === true) { console.warn('SimpleV: Form explicitly skipped.', forms[i]); }
+			if ((options !== undefined) && (options.log === true)) { console.warn('SimpleV: Form explicitly skipped.', forms[i]); }
 			continue;
 		}
 
@@ -955,4 +955,4 @@ SimpleV.isValid = function(form) {
 	return false;
 };
 
-SimpleV.version = '0.1.1';
+SimpleV.version = '0.1.2';
