@@ -944,6 +944,8 @@ SimpleV.init = function(body, options) {
 
 SimpleV.isValid = function(form) {
 
+	SimpleV.init(form);
+
 	for (var i = 0; i < SimpleV.forms.length; i++) {
 
 		if (SimpleV.forms[i].form === form) {
@@ -955,4 +957,4 @@ SimpleV.isValid = function(form) {
 	return false;
 };
 
-SimpleV.version = '0.1.2';
+SimpleV.version = '0.1.3';
