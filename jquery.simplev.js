@@ -210,7 +210,7 @@ SimpleV = function(form, options) {
 
 		this._transformDirectives = function(plainDir) {
 
-			if (typeof plainDir !== 'string') { return null; };
+			if (typeof plainDir !== 'string') { return null; }
 
 			var result = {
 
@@ -553,7 +553,7 @@ SimpleV = function(form, options) {
 			element.parentElement.appendChild(message);
 
 			return message;
-		}
+		};
 
 		this._showMessage = function(index, reasons) {
 
@@ -563,7 +563,7 @@ SimpleV = function(form, options) {
 			var groupCount = dir.groupedWith.length;
 			if (groupCount > 0) {
 
-				var minNotReached = (reasons.indexOf('SELECTION_MIN') >= 0)
+				var minNotReached = (reasons.indexOf('SELECTION_MIN') >= 0);
 
 				for (var i = 0; i < groupCount; i++) {
 
@@ -909,7 +909,7 @@ SimpleV.init = function(body, options) {
 
 		forms = body.querySelectorAll('form[data-v]');
 	}
-	var formsCount 	= forms.length;
+	var formsCount = forms.length;
 
 	for (var i = 0; i < formsCount; i++) {
 
