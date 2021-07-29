@@ -807,11 +807,11 @@ SimpleV = function(form, options) {
 						var groupCount = dir.groupedWith.length;
 						if (groupCount > 0) {
 
-							for (i = 0; i < groupCount; i++) {
+							for (var n = 0; n < groupCount; n++) {
 
 								// share directives and change event
-								dir.groupedWith[i].setAttribute('data-v-cached', dir.id);
-								dir.groupedWith[i].addEventListener('change', self._validateDecision);
+								dir.groupedWith[n].setAttribute('data-v-cached', dir.id);
+								dir.groupedWith[n].addEventListener('change', self._validateDecision);
 							}
 
 						} else {
@@ -957,4 +957,4 @@ SimpleV.isValid = function(form) {
 	return false;
 };
 
-SimpleV.version = '0.1.3';
+SimpleV.version = '0.1.4';
