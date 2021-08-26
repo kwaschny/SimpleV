@@ -32,8 +32,8 @@ SimpleV = function(form, options) {
 
 			/* BEGIN: <input> */
 
-				elements 		= self.form.getElementsByTagName('input');
-				elementCount 	= elements.length;
+				elements     = self.form.getElementsByTagName('input');
+				elementCount = elements.length;
 
 				for (i = 0; i < elementCount; i++) {
 
@@ -78,8 +78,8 @@ SimpleV = function(form, options) {
 
 			/* BEGIN: <textarea> */
 
-				elements 		= self.form.getElementsByTagName('textarea');
-				elementCount 	= elements.length;
+				elements     = self.form.getElementsByTagName('textarea');
+				elementCount = elements.length;
 
 				for (i = 0; i < elementCount; i++) {
 
@@ -100,8 +100,8 @@ SimpleV = function(form, options) {
 
 			/* BEGIN: <select> */
 
-				elements 		= self.form.getElementsByTagName('select');
-				elementCount 	= elements.length;
+				elements     = self.form.getElementsByTagName('select');
+				elementCount = elements.length;
 
 				for (i = 0; i < elementCount; i++) {
 
@@ -137,8 +137,8 @@ SimpleV = function(form, options) {
 
 	/* BEGIN: public callbacks */
 
-		this.onValid 	= null;
-		this.onInvalid 	= null;
+		this.onValid   = null;
+		this.onInvalid = null;
 
 	/* END: public callbacks */
 
@@ -214,24 +214,24 @@ SimpleV = function(form, options) {
 
 			var result = {
 
-				id: 			null,
+				id:       null,
 
-				required: 		false,
-				type: 			null,
-				min: 			-Infinity,
-				max: 			Infinity,
-				trim: 			true,
-				pattern: 		null,
+				required: false,
+				type:     null,
+				min:     -Infinity,
+				max:      Infinity,
+				trim:     true,
+				pattern:  null,
 
-				element: 		null,
-				groupedWith: 	[],
-				message: 		null,
+				element:     null,
+				groupedWith: [],
+				message:     null,
 
-				realtime: 		false
+				realtime:    false
 			};
 
-			var params 		= plainDir.split(',');
-			var paramCount 	= params.length;
+			var params     = plainDir.split(',');
+			var paramCount = params.length;
 
 			for (var i = 0; i < paramCount; i++) {
 
@@ -327,11 +327,11 @@ SimpleV = function(form, options) {
 						if ((dir.required === true) || (textLength > 0)) {
 
 							// e-mail validation simplified to: x@x.x
-							var posAt 	= text.indexOf('@');
-							var hasAt 	= (posAt >= 1);
+							var posAt = text.indexOf('@');
+							var hasAt = (posAt >= 1);
 
-							var posDot 	= text.indexOf('.', posAt);
-							var hasDot 	= ( ((posDot-posAt) >= 2) && (posDot < (textLength-1)) );
+							var posDot = text.indexOf('.', posAt);
+							var hasDot = ( ((posDot-posAt) >= 2) && (posDot < (textLength-1)) );
 
 							if (!hasAt || !hasDot) { reasons.push('INPUT_EMAIL'); }
 						}
@@ -502,29 +502,29 @@ SimpleV = function(form, options) {
 
 		this._getMessagePosition = function(element) {
 
-			var $element 	= jQuery(element);
-			var position 	= $element.position();
-			var width 		= $element.outerWidth();
-			var height 		= $element.outerHeight();
+			var $element = jQuery(element);
+			var position = $element.position();
+			var width    = $element.outerWidth();
+			var height   = $element.outerHeight();
 
 			switch (self.options.position) {
 
 				case 'top':
 					return {
-						top: 	(position.top - Math.min(height, 21) - self.options.offsetY),
-						left: 	(position.left + self.options.offsetX)
+						top:  (position.top - Math.min(height, 21) - self.options.offsetY),
+						left: (position.left + self.options.offsetX)
 					};
 
 				case 'right':
 					return {
-						top: 	(position.top + self.options.offsetY),
-						left: 	(position.left + width + self.options.offsetX)
+						top:  (position.top + self.options.offsetY),
+						left: (position.left + width + self.options.offsetX)
 					};
 
 				case 'bottom':
 					return {
-						top: 	(position.top + height + self.options.offsetY),
-						left: 	(position.left + self.options.offsetX)
+						top:  (position.top + height + self.options.offsetY),
+						left: (position.left + self.options.offsetX)
 					};
 
 				default:
@@ -534,15 +534,15 @@ SimpleV = function(form, options) {
 
 		this._createMessage = function(element) {
 
-			var message 		= document.createElement('div');
-			message.className 	= self.options.className;
+			var message       = document.createElement('div');
+			message.className = self.options.className;
 
 			if (self.options.display === 'relative') {
 
-				var position 			= self._getMessagePosition(element);
-				message.style.position 	= 'absolute';
-				message.style.top 		= (position.top  + 'px');
-				message.style.left 		= (position.left + 'px');
+				var position           = self._getMessagePosition(element);
+				message.style.position = 'absolute';
+				message.style.top      = (position.top  + 'px');
+				message.style.left     = (position.left + 'px');
 
 			} else {
 
@@ -644,8 +644,8 @@ SimpleV = function(form, options) {
 			// if the message element does not exist yet, there's no need to hide anything
 			if (dir.message !== null) {
 
-				dir.message.style.display 	= 'none';
-				dir.message.innerHTML 		= '';
+				dir.message.style.display = 'none';
+				dir.message.innerHTML     = '';
 			}
 		};
 
@@ -654,10 +654,10 @@ SimpleV = function(form, options) {
 			var rect = element.getBoundingClientRect();
 
 			return (
-				(rect.top 		>= 0) &&
-				(rect.left 		>= 0) &&
-				(rect.bottom 	<= window.innerHeight) &&
-				(rect.right 	<= window.innerWidth)
+				(rect.top    >= 0) &&
+				(rect.left   >= 0) &&
+				(rect.bottom <= window.innerHeight) &&
+				(rect.right  <= window.innerWidth)
 			);
 		};
 
@@ -678,10 +678,10 @@ SimpleV = function(form, options) {
 
 			// true:  Start real-time validation after the input was left for the first time.
 			// false: Start real-time validation immediately.
-			delayValidation: 	true,
+			delayValidation: true,
 
 			// Automatically scroll into view of the first element that did not pass validation.
-			scrollIntoView: 	true,
+			scrollIntoView: true,
 
 			// Duration of the scroll into view animation in milliseconds.
 			scrollIntoViewDuration: 600,
@@ -692,34 +692,34 @@ SimpleV = function(form, options) {
 			// Display mode of the message element.
 			// 'static':   The message element is an inline-block right after the input element.
 			// 'relative': The message element is floating on top of the input element.
-			display: 			'static',
+			display: 'static',
 
 			// Directional position of the message element.
 			// Only works when [display] is set to 'relative'.
 			// 'top':    The message element is shown above the input element.
 			// 'right':  The message element is shown next to the input element.
 			// 'bottom': The message element is shown below the input element.
-			position: 			'top',
+			position: 'top',
 
 			// Offset in 'px' added to the X position of the message element.
 			// Only works when [display] is set to 'relative'.
-			offsetX: 			null,
+			offsetX: null,
 
 			// Offset in 'px' added to the Y position of the message element.
 			// Only works when [display] is set to 'relative'.
-			offsetY: 			null,
+			offsetY: null,
 
 			// Class of the message element dynamically added on validation.
-			className: 			'simplev-message',
+			className: 'simplev-message',
 
 			// Class to set on the input element in case the validation passed.
-			validClass: 		'simplev-valid',
+			validClass: 'simplev-valid',
 
 			// Class to set on the input element in case the validation failed.
-			invalidClass: 		'simplev-invalid',
+			invalidClass: 'simplev-invalid',
 
 			// Log SimpleV related warnings and infos in the console.
-			log: 				false
+			log: false
 
 		};
 
@@ -781,8 +781,8 @@ SimpleV = function(form, options) {
 
 		/* BEGIN: <input> */
 
-			elements 		= this.form.getElementsByTagName('input');
-			elementCount 	= elements.length;
+			elements     = this.form.getElementsByTagName('input');
+			elementCount = elements.length;
 
 			for (i = 0; i < elementCount; i++) {
 
@@ -826,8 +826,8 @@ SimpleV = function(form, options) {
 
 		/* BEGIN: <textarea> */
 
-			elements 		= this.form.getElementsByTagName('textarea');
-			elementCount 	= elements.length;
+			elements     = this.form.getElementsByTagName('textarea');
+			elementCount = elements.length;
 
 			for (i = 0; i < elementCount; i++) {
 
@@ -840,8 +840,8 @@ SimpleV = function(form, options) {
 
 		/* BEGIN: <select> */
 
-			elements 		= this.form.getElementsByTagName('select');
-			elementCount 	= elements.length;
+			elements     = this.form.getElementsByTagName('select');
+			elementCount = elements.length;
 
 			for (i = 0; i < elementCount; i++) {
 
@@ -851,8 +851,6 @@ SimpleV = function(form, options) {
 			}
 
 		/* END: <select> */
-
-
 
 	/* END: hook inputs */
 
