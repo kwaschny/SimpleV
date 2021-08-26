@@ -500,62 +500,39 @@ SimpleV = function(form, options) {
 			self._validateDecision(e);
 		};
 
-		this._getMessagePosition = function(element) {
-
-			var $element = jQuery(element);
-			var position = $element.position();
-			var width    = $element.outerWidth();
-			var height   = $element.outerHeight();
-
-			switch (self.options.position) {
-
-				case 'top':
-					return {
-						top:  (position.top - Math.min(height, 21) - self.options.offsetY),
-						left: (position.left + self.options.offsetX)
-					};
-
-				case 'right':
-					return {
-						top:  (position.top + self.options.offsetY),
-						left: (position.left + width + self.options.offsetX)
-					};
-
-				case 'bottom':
-					return {
-						top:  (position.top + height + self.options.offsetY),
-						left: (position.left + self.options.offsetX)
-					};
-
-				default:
-					throw new Error('SimpleV: Invalid option value encountered for "position". The value "' + self.options.position + '" is not supported.');
-			}
-		};
-
 		this._createMessage = function(element) {
 
 			var message       = document.createElement('div');
 			message.className = self.options.className;
 
-			if (self.options.display === 'relative') {
+			if (typeof self.options.position === 'function') {
 
-				var position           = self._getMessagePosition(element);
-				message.style.position = 'absolute';
-				message.style.top      = (position.top  + 'px');
-				message.style.left     = (position.left + 'px');
+				// invoke callback
+				self.options.position(message, element);
 
 			} else {
 
-				message.style.display = 'inline-block';
-			}
+				switch (self.options.position) {
 
-			// append to parent element
-			element.parentElement.appendChild(message);
+					case 'append':
+						element.parentElement.appendChild(message);
+						break;
+
+					case 'prepend':
+						element.parentElement.insertBefore(message, element);
+						break;
+
+					default:
+						throw new Error('SimpleV: Invalid option value encountered for "position". The value "' + self.options.position + '" is not supported.');
+				}
+			}
 
 			return message;
 		};
 
 		this._showMessage = function(index, reasons) {
+
+			if (reasons.length === 0) { return; }
 
 			// fetch from cache
 			var dir = self._cache[index];
@@ -612,13 +589,12 @@ SimpleV = function(form, options) {
 				messageText = messageText.replace(/\{max\}/g, dir.max);
 
 				dir.message.innerHTML = messageText;
+				dir.message.removeAttribute('hidden');
 
 			} else {
 
 				throw new Error('SimpleV: Missing localization entry in SimpleV.l10n for reason: ' + reason);
 			}
-
-			dir.message.style.removeProperty('display');
 		};
 
 		this._hideMessage = function(index) {
@@ -644,8 +620,8 @@ SimpleV = function(form, options) {
 			// if the message element does not exist yet, there's no need to hide anything
 			if (dir.message !== null) {
 
-				dir.message.style.display = 'none';
-				dir.message.innerHTML     = '';
+				dir.message.setAttribute('hidden', '');
+				dir.message.innerHTML = '';
 			}
 		};
 
@@ -689,25 +665,11 @@ SimpleV = function(form, options) {
 			// Offset added to the position of the first element, which receives the scroll into view.
 			scrollIntoViewOffset: -32,
 
-			// Display mode of the message element.
-			// 'static':   The message element is an inline-block right after the input element.
-			// 'relative': The message element is floating on top of the input element.
-			display: 'static',
-
-			// Directional position of the message element.
-			// Only works when [display] is set to 'relative'.
-			// 'top':    The message element is shown above the input element.
-			// 'right':  The message element is shown next to the input element.
-			// 'bottom': The message element is shown below the input element.
-			position: 'top',
-
-			// Offset in 'px' added to the X position of the message element.
-			// Only works when [display] is set to 'relative'.
-			offsetX: null,
-
-			// Offset in 'px' added to the Y position of the message element.
-			// Only works when [display] is set to 'relative'.
-			offsetY: null,
+			// Position of the message element.
+			// 'append':  Insert the message element after  the input element.
+			// 'prepend': Insert the message element before the input element.
+			// function(inputElement, messageElement): Callback function to manually add the message element to the DOM.
+			position: 'append',
 
 			// Class of the message element dynamically added on validation.
 			className: 'simplev-message',
@@ -729,12 +691,6 @@ SimpleV = function(form, options) {
 	/* END: options */
 
 	this.form = form;
-
-	if (this.options.display === 'relative') {
-
-		// message are positioned absolute to the parent, thus requiring the parent to be positioned relative
-		this.form.style.position = 'relative';
-	}
 
 	/* BEGIN: hook form */
 
@@ -955,4 +911,4 @@ SimpleV.isValid = function(form) {
 	return false;
 };
 
-SimpleV.version = '0.1.4';
+SimpleV.version = '0.2';
