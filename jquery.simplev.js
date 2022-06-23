@@ -214,11 +214,11 @@ SimpleV = function(form, options) {
 
 			var result = {
 
-				id:       null,
+				id: null,
 
 				required: false,
 				type:     null,
-				min:     -Infinity,
+				min:      -Infinity,
 				max:      Infinity,
 				trim:     true,
 				pattern:  null,
@@ -227,7 +227,7 @@ SimpleV = function(form, options) {
 				groupedWith: [],
 				message:     null,
 
-				realtime:    false
+				realtime: false
 			};
 
 			var params     = plainDir.split(',');
@@ -832,7 +832,7 @@ SimpleV.init = function(body, options) {
 	//         function(options)
 
 	// swap arguments
-	if (typeof body === 'object') {
+	if ((typeof body === 'object') && (body !== null)) {
 
 		if (body.nodeType !== 1) {
 
@@ -891,6 +891,7 @@ SimpleV.init = function(body, options) {
 
 		// alias for the first form
 		if (SimpleV.forms.length === 1) {
+
 			SimpleV.form = SimpleV.forms[0];
 		}
 	}
@@ -898,17 +899,46 @@ SimpleV.init = function(body, options) {
 
 SimpleV.isValid = function(form) {
 
-	SimpleV.init(form);
+	// unpack jQuery object
+	if (window.jQuery && (form instanceof jQuery)) {
 
-	for (var i = 0; i < SimpleV.forms.length; i++) {
-
-		if (SimpleV.forms[i].form === form) {
-
-			return SimpleV.forms[i].validate();
-		}
+		form = form[0];
 	}
 
-	return false;
+	var isForm = (
+		(typeof form === 'object') &&
+		(form !== null) &&
+		(form.nodeType === 1)
+	);
+
+	if (isForm) {
+
+		SimpleV.init(form);
+
+		for (var i = 0; i < SimpleV.forms.length; i++) {
+
+			if (SimpleV.forms[i].form === form) {
+
+				return SimpleV.forms[i].validate();
+			}
+		}
+
+		return false;
+
+	} else {
+
+		SimpleV.init();
+
+		for (var i = 0; i < SimpleV.forms.length; i++) {
+
+			if ( !SimpleV.forms[i].validate() ) {
+
+				return false;
+			}
+		}
+
+		return true;
+	}
 };
 
-SimpleV.version = '0.2';
+SimpleV.version = '0.2.1';
